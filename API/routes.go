@@ -10,5 +10,6 @@ func NewRouter() *httprouter.Router {
     router.GET("/", Index)
     router.POST("/users", SaveUsers)
     router.POST("/weight", SaveWeight)
+    router.PUT("/item", UpdateItem)
     return router
 }

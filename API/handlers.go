@@ -52,3 +52,25 @@ func SaveWeight(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
     }
     w.WriteHeader(http.StatusOK)
 }
+
+// UpdateUser update an existing user
+func UpdateItem(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
+    //ID := params.ByName("idTag")
+    var i Item
+    err := json.NewDecoder(req.Body).Decode(&i)
+    defer req.Body.Close()
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+    if i.IdTag == "" {
+        http.Error(w, "Please set ID TAG in User information", http.StatusBadRequest)
+        return
+    }
+    err = NewItem().Update(i)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+    w.WriteHeader(http.StatusOK)
+}
